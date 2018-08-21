@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8" lang="RU">
@@ -29,27 +24,59 @@ and open the template in the editor.
              "Neurotrichus gibbsii", 
              "Zea", 
              "Felis silvestris"]];
-        $allAnimals = array();
+        
+        $allAnimals = array(); // ПРеобразуем многомерный массив в одномерный
         foreach ($animals as $subArr) {
             $allAnimals = array_merge($allAnimals,$subArr);   
         }
-        print_r($allAnimals);
-        $newAnimals = array();
+       
+        $newAnimals = array(); // Создаем массив в котором только звери из двух слов
         foreach ($allAnimals as $animalName) {
             if (strpos ($animalName, " ") !== FALSE) {
                 array_push($newAnimals, $animalName);
             }
         }
-        print "<br><br>";
-        print_r($newAnimals);
+       
+        $all = array(); // Сортируем массив на два разных с первыми словами и со вторыми
+        $ferst_word = array();
+        $second_word = array();
+        foreach ($newAnimals as $k => $v) {
+            $word = explode(" ", $v);
+            array_push($all, $word);
+        }
+        foreach ($all as $value) {
+            foreach ($value as $key => $z) {
+                if ($key < 1) {
+                    array_push ($ferst_word, $z);
+                } else {
+                    array_push($second_word, $z);
+                }
+            }
+        }
         
-        $newAnimals_string = implode(",", $newAnimals); // создаем строку из массива для перемешивания
-        print "<br><br>";
-        echo $newAnimals_string;
+        shuffle($ferst_word); //Перемешиваем первые слова
+            
+        // Сливаем массивы
+        $result = array() ;
+        for ($i = 0; $i < count($ferst_word); $i++) {
+           $a = $ferst_word[$i];
+           $b = $second_word[$i];
+           $result[$i] = $a . " " . $b;
+           
+        }
         
-//        shuffle($newAnimals);
+            
         print "<br><br>";
-        print_r($newAnimals);
+        var_dump($result);
+
+        $q = "a";
+        $v = "abv";
+        $v2 = "ert";
+        $q = $v . $v2;
+        echo $q;
+           
         ?>
     </body>
 </html>
+
+
