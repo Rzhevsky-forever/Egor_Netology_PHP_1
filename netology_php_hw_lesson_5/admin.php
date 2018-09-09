@@ -21,19 +21,16 @@ and open the template in the editor.
         </form>
         <?php
         if (!empty($_FILES)) {
-//            var_dump($_FILES); // Test print
             if ($_FILES[$fileName]['type'] === 'application/json'){
-//                echo ($_FILES[$fileName]['type']) . "<br>"; // Test print
-                $testName = $_FILES[$fileName]["name"];
-//                echo "<br>"."<br>"."<br>"."<br>"."<br>"."<br>".$testName;
-                move_uploaded_file($_FILES[$fileName]["tmp_name"], $_FILES[$fileName]["name"]); // Перемещаем файл из директория по умолчанию в директорию, где admin.php
+               if (move_uploaded_file($_FILES[$fileName]["tmp_name"], $_FILES[$fileName]["name"])) {  // Перемещаем файл из директория по умолчанию в директорию, где admin.php
+                  $testName = $_FILES[$fileName]["name"];
+                   echo "Файл " . $testName . " перемещен";
+                   header("location:list.php?get=$testName"); // Перемещаем значение переменной в list.php
+               }
         }   else {
                 echo 'Проблемма... Загрузите файл в запрошенном формате ';
             } 
         }   
-        else {
-            echo 'Файл не был загружен. Загрузите файл и повторите отправку';
-        }
         ?>
     </body>
 </html>
