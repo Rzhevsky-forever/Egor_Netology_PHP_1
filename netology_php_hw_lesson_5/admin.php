@@ -24,7 +24,6 @@ and open the template in the editor.
             if ($_FILES[$fileName]['type'] === 'application/json'){
                if (move_uploaded_file($_FILES[$fileName]["tmp_name"], $_FILES[$fileName]["name"])) {  // Перемещаем файл из директория по умолчанию в директорию, где admin.php
                   $testName = $_FILES[$fileName]["name"];
-                   echo "Файл " . $testName . " перемещен";
                    header("location:list.php?get=$testName"); // Перемещаем значение переменной в list.php
                }
         }   else {

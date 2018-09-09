@@ -10,13 +10,14 @@
         
 <?php
 $testName = $_GET['get']; // Получаем значение переменной из admin.php
-//    $testName = "D:/wamp64/www/netology_php_hw_lesson_5/" . $testName; // Правильный вид пути до файла
-//    echo $testName;// Test print
-    if (file_exists($testName)) {
+echo 'Название теущего файла ' . $testName . "<br>";
+$pathToTest = "D:/wamp64/www/netology_php_hw_lesson_5/" . $testName; // Правильный полный путь до файла
+echo 'Путь до текущего файла теста: ' . $pathToTest;
+    if (file_exists($pathToTest)) {
         ?>  
             <div class="wrapper_row">
                 <form method="POST" action="test.php">
-                    <input type="radio" name="<?php echo $testName; ?>" value="<?php echo $testName; ?>"><p><?php echo $testName; ?></p>
+                    <input type="radio" name="<?php echo $testName; ?>" value="<?php echo $testName; ?>"><p>Тест №1 под именем:  <?php echo $testName; ?></p>
                     <input type="submit" value="Выбрать">
                 </form> 
             </div>
