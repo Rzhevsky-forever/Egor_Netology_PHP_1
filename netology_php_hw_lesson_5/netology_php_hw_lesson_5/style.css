@@ -1,0 +1,39 @@
+.wrapper_row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-content: center;
+    margin: auto;
+}
+
+.form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    width: 30%;
+    align-items: center;
+}
+
+.radio_form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: center;
+    width: 20%;
+}
+
+.radio_buttom {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    width: 25%;
+    align-items: center;
+    
+}
+
+.content {
+    font: normal normal 400 16px sans-serif;
+}
