@@ -4,26 +4,35 @@
     <head>
         <meta charset="UTF-8" lang="RU">
         <title>Выбор теста</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
+       
         
 <?php
-$testName = $_GET['get']; // Получаем значение переменной из admin.php
-echo 'Название теущего файла ' . $testName . "<br>";
-$pathToTest = "D:/wamp64/www/netology_php_hw_lesson_5/" . $testName; // Правильный полный путь до файла
-echo 'Путь до текущего файла теста: ' . $pathToTest;
-    if (file_exists($pathToTest)) {
-        ?>  
-            <div class="wrapper_row">
-                <form method="POST" action="test.php">
-                    <input type="radio" name="<?php echo $testName; ?>" value="<?php echo $testName; ?>"><p>Тест №1 под именем:  <?php echo $testName; ?></p>
-                    <input type="submit" value="Выбрать">
-                </form> 
+    $testsCatalog = "D:/wamp64/www/netology_php_hw_lesson_5/tests/";
+    $scanCatalog = scandir($testsCatalog);
+    var_dump($scanCatalog); //Test print
+        foreach ($scanCatalog as $key => $value) {
+            if($key == 2) {
+                $test_1 = $value;
+            } elseif ($key == 3) {
+                $test_2 = $value;
+            }
+        }
+?>  <form name="Передаю тесты" method="POST">
+        <p class="content">Выберете тест:</p>
+        <div class="radio_form">
+            <div class="radio_buttom">
+                <input type="radio" name="tetst" value="<?php echo $test_1 ?>"> <p>Тест №1</p>
             </div>
-    <?php     
-    }
-?>
-        
+             <div class="radio_buttom">
+                <input type="radio" name="tetst" value="<?php echo $test_2 ?>"> <p>Тест №2</p>
+            </div>
+             <div class="radio_buttom">
+                 <input class="content" type="submit" value="Выбрать">
+            </div>
+        </div>
+    </form>
     </body>
 </html>
