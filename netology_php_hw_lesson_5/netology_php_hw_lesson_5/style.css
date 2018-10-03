@@ -37,3 +37,12 @@
 .content {
     font: normal normal 400 16px sans-serif;
 }
+
+.test {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    width: 15%;
+    align-items: center;
+}

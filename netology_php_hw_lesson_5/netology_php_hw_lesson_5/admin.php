@@ -12,13 +12,13 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        $fileName = "uploadfile";
+        //$fileName = "uploadfile";
         ?>
             
         <form method="POST" enctype="multipart/form-data" action="admin.php">
             <div class="content form">
                 <p>Выбирите файл .json</p>
-                <div><input type="file" name="<?php echo $fileName ?>" multiple></div>
+                <div><input type="file" name="<?php echo $fileName = "uploadfile" ?>" multiple></div>
                 <div><input type="submit"></div>
             </div>
         </form>
@@ -27,10 +27,11 @@ and open the template in the editor.
         
         <?php
         if (!empty($_FILES)) {
-            var_dump($_FILES); // Test print
+//            var_dump($_FILES); // Тестовый вывод
             if ($_FILES[$fileName]['type'] === 'application/json') {
-            $testsCatalog = "D:/wamp64/www/netology_php_hw_lesson_5/tests/" . $_FILES[$fileName]["name"]; // Создаем конечный путь до файла, путь в себя включает имя файла
+            $testsCatalog = "tests/" . $_FILES[$fileName]["name"]; // Создаем конечный путь до файла, путь в себя включает имя файла
             move_uploaded_file($_FILES[$fileName]["tmp_name"], $testsCatalog);   // Перемещаем файл из директория по умолчанию в целевую директорию
+            echo 'Файл загружен';
         }   else {
                 echo 'Проблемма... Загрузите файл в запрошенном формате ';
             } 
