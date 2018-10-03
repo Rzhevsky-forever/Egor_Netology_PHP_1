@@ -14,12 +14,15 @@ and open the template in the editor.
 <?php
 
 $otvet = filter_input(INPUT_POST, 'test');
+//if (!empty($otvet)) {  echo '<br>' . 'YESYES'; var_dump($otvet); }
 if (empty($otvet)){
     if (!empty($_GET)) { // Какое - то не совсем правильное получение переменной
          $test = filter_input(INPUT_GET, 'test'); // Строчный атрибут указанный вторым проверяет на наличие этой строки в INPUT_GET
          $pathToFile = "tests/" . $test; // Формируем путь до файла (относительный) с учетом имени файла
          $fileTest = file_get_contents($pathToFile); // Считываем файл по пути из прошлой строки
          $decodeTest = json_decode($fileTest, TRUE);
+//         var_dump($decodeTest); // Тестовый вывод
+//         var_dump($decodeTest[0]['test-1']['qwestion_1 :']); // Тестовый вывод
     
         foreach ($decodeTest as $key => $value) {
             foreach ($value as $test => $namber) {
@@ -30,6 +33,7 @@ if (empty($otvet)){
                 }
             }
         }
+//        echo 'новый массив - ';var_dump($variants);
 
  ?>
     <form name="TestInter" method="POST" action="test.php">
@@ -43,7 +47,7 @@ if (empty($otvet)){
             }
 ?>
         </p>
-        <div class="radio_form"> <!-- Тоже надо сделать в цыкле ... -->
+        <div class="radio_form"> <!-- Тоже надо сделать в цыкле -->
             <div class="radio_buttom test content">
                 <input type="radio" name="test" value="<?php echo $variants[0]; ?>"> <p><?php echo $variants[0]; ?></p>
             </div>
@@ -62,6 +66,7 @@ if (empty($otvet)){
         </div>
     </form>
 <?php 
+ 
     }
 } elseif (isset ($otvet)){    
     if ($otvet == 8 || $otvet == 1000 || $otvet == 9999 || $otvet == 78) {
@@ -70,6 +75,12 @@ if (empty($otvet)){
         echo 'Не правильно!';
     }
   } 
+    
+//          if($_POST["test"] == 8) {  
+//          if($_POST["test"] == 1000) {
+//          if($_POST["test"] == 9999) {
+//          if($_POST["test"] == 78) {
+
 ?>
 
 

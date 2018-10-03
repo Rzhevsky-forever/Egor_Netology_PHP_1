@@ -30,6 +30,22 @@
         <?php
             }
         }
-?>  
+        ?>  
+        <!--------------
+    <form name="Передаю тесты" method="GET" action="test.php">
+        <p class="content">Выберете тест:</p>
+        <div class="radio_form">
+            <div class="radio_buttom">
+                <input type="radio" name="test" value="<//?php echo $test_1 ?>"> <p>Тест №1</p>
+            </div>
+             <div class="radio_buttom">
+                <input type="radio" name="test" value="<//?php echo $test_2 ?>"> <p>Тест №2</p>
+            </div>
+             <div class="radio_buttom">
+                 <input class="content" type="submit" value="Выбрать">
+            </div>
+        </div>
+    </form>
+        ------------>
     </body>
 </html>
