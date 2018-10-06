@@ -11,73 +11,53 @@ and open the template in the editor.
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
+        <form name="TestInter" method="POST" action="test.php">
+            
 <?php
-//if (isset($_GET)) {$getVar[] = $_GET;} // Тестовая проверка
-//echo '<br>' . '----GET is----'; var_dump($getVar); // Тестовая проверка
-$otvet = filter_input(INPUT_POST, 'test');
-//if (!empty($otvet)) {  echo '<br>' . '----POST - is----'; var_dump($otvet); } // Тестовая проверка
+$otvet = filter_input(INPUT_POST, 'test'); // Перезаписываем и фильтруем данные из POST в внутреннюю переменную (лечим внутреннюю ошибку Net Beans)
 if (empty($otvet)){
-    if (!empty($_GET)) { // Какое - то не совсем правильное получение переменной
+    if (!empty($_GET)) { // Какое - то не совсем правильное получение переменной. СДЕЛАТЬ Ч/З ФИЛЬТР
          $test = filter_input(INPUT_GET, 'test'); // Строчный атрибут указанный вторым проверяет на наличие этой строки в INPUT_GET
-//echo '<br>' . '--------'; var_dump($test); // Тестовая проверка
          $pathToFile = "tests/" . $test; // Формируем путь до файла (относительный) с учетом имени файла
          $fileTest = file_get_contents($pathToFile); // Считываем файл по пути из прошлой строки
-         $fileUTF = mb_convert_encoding($fileTest, 'UTF-8'); // Меняем кодировку на UTF-8
-//echo '<br>' . '--------'; var_dump($fileUTF); // Тестовая проверка        
+         $codirovka = mb_detect_encoding($fileTest, 'UTF-8', 'Windows-1251'); // Вычмсляем кодировку, без двух последних флагов(возможные кодировки) не работет и возвращает UTF-8 всегда
+         if (!($codirovka === "UTF-8")) { // Проверяем кодировку UTF-8 или нет
+            $fileUTF = mb_convert_encoding($fileTest, 'UTF-8', 'Windows-1251'); // Если НЕ UTF-8 - меняем кодировку на UTF-8 (!! Добавление третьим аргументом исходной кодировки('Windows-1251') исправило проблемму когда символы в этой кодировки перекодировались в "?????..." !!)
+         } else {
+            $fileUTF = $fileTest;
+         }
          $decodeTest = json_decode($fileUTF, TRUE); // Декодируем json и переписываем в массив PHP 
-//echo '<br>' . '--------'; var_dump($decodeTest); // Тестовая проверка
         foreach ($decodeTest as $key => $value) {
             foreach ($value as $test => $namber) {
-                foreach ($namber as $k => $v) {
-                    foreach ($v as $a => $b) {
-                        $variants[] = $b; 
+                foreach ($namber as $k => $v) { ?>
+                            <p class="content"> 
+                                <?php echo $k; ?>
+                            </p>  
+                            <div class="radio_form">
+                    <?php
+                    foreach ($v as $a => $variants) { ?>
+                                <div class="radio_buttom test content">
+                                    <input type="radio" name="test" value="<?php echo $variants; ?>"> <p><?php echo $variants; ?></p>
+                                </div>
+                    <?php
                     }
                 }
             }
-        }
-
- ?>
-    <form name="TestInter" method="POST" action="test.php">
-        <p class="content"> 
-            <?php foreach ($decodeTest as $key => $vv){
-                foreach ($vv as $f => $s) {
-                    foreach ($s as $n => $q) {
-                        echo $n;
-                    }
-                }
-            }
-?>
-        </p>
-        <div class="radio_form"> <!-- Тоже надо сделать в цыкле ... -->
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[0]; ?>"> <p><?php echo $variants[0]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[1]; ?>"> <p><?php echo $variants[1]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[2]; ?>"> <p><?php echo $variants[2]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[3]; ?>"> <p><?php echo $variants[3]; ?></p>
-            </div>
-            <div class="radio_buttom">
-                <input class="content" type="submit" value="Выбрать">
-            </div>
+        } ?>
         </div>
-    </form>
-<?php 
+        <div class="radio_buttom">
+            <input class="content" type="submit" value="Выбрать">
+        </div>
+        <?php
     }
-} elseif (isset ($otvet)){    
+} elseif (isset ($otvet)){
     if ($otvet == 8 || $otvet == 1000 || $otvet == 78) {
         echo 'Правильно!';
     } else {
-        echo 'Не правильно!';
+        echo $otvet . ' - Это не правильный ответ :)';
     }
   } 
 ?>
-
-
-
+        </form>
     </body>
 </html>

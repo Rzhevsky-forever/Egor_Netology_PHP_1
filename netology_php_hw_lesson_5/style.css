@@ -21,7 +21,7 @@
     justify-content: space-between;
     align-content: flex-start;
     align-items: center;
-    width: 20%;
+    width: 11%;
 }
 
 .radio_buttom {
@@ -29,7 +29,7 @@
     flex-flow: row wrap;
     justify-content: space-between;
     align-content: flex-start;
-    width: 25%;
+    width: 100px;
     align-items: center;
     
 }
@@ -43,6 +43,6 @@
     flex-flow: column wrap;
     justify-content: space-between;
     align-content: flex-start;
-    width: 15%;
+    width: calc(100%/25);
     align-items: center;
 }
