@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 13, 2018, 10:17:51 PM
+    Author     : Егор
+*/
+/*--- FONTS --- */
+
+
+/*---Contents---*/
+.wrapper {
+	width: 1200px;
+        margin: auto;
+}
+
+.castom-animals {
+    text-align: center;
+    font: normal normal 50px 'Hammersmith One';
+    color: #ffffff;
+    background: url('https://imageshost.ru/images/2018/07/21/header-background.jpg') center / cover no-repeat, #413169;
+    padding: 35px 35px;
+}
