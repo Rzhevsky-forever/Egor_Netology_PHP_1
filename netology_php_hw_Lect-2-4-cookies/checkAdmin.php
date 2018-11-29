@@ -14,30 +14,24 @@ function checkAdmin () {
         }
     endforeach;
 
-    if (!empty(filter_input(INPUT_POST, 'userLogin')) && !empty(filter_input(INPUT_POST, 'userPass'))) { 
+    if ( (!empty(filter_input(INPUT_POST, 'userLogin')) ) && (!empty(filter_input(INPUT_POST, 'userPass'))) ) { 
         
         if ($_POST['userLogin'] === $adminLogin && $_POST['userPass'] === $adminPass) { 
             $checkAdmin = TRUE;
             setcookie ('adminLogin', $adminLogin);
             setcookie ('adminPass', $adminPass);
-        } elseif ($_POST['userLogin'] === $adminLogin && $_POST['userPass'] !== $adminPass) { // Если кто - то неверно ввёл пароль админа (!! Не хватает аутентификации по COOKIES !!)
+        } elseif ($_POST['userLogin'] === $adminLogin && $_POST['userPass'] !== $adminPass || $_POST['userPass'] !== $adminPass) { // Если кто - то неверно ввёл пароль админа (!! Не хватает аутентификации по COOKIES !!)
+            
             $handle = fopen('contCapcha.txt', 'r'); // Открываем файл в котором хранима кол-во попыток
             $readContCapcha =  fread($handle, 100); // Считываем данные из файла и сохраняем их в переменную
             fclose($handle); // Закрываем файл
             settype($readContCapcha, 'integer'); // Преобразуем считанные данные в целочисленный тип
-//            echo gettype($contCapcha) . '<br />'; // print type $contCapcha
             $contCapcha = 0; // Обнуляем переменную
             $contCapcha = $readContCapcha + 1; // Добавляем одну единицу к счетчику
             $handle = fopen('contCapcha.txt', 'w'); // Открываем файл - счетчик, в которм удаляем стартовые данные, в следующем шаге будем писать новые
             fwrite ($handle, $contCapcha); // Пишем обновленные данные счетчика
-            
-//            echo fread($handle, 10); // Test print
-            
             fclose($handle); // Закрываем поток
-//            var_dump($contCapcha); echo ' var_dump' . '<br />';
-//            echo '<br />';
-//            echo gettype($contCapcha);echo ' gettype' . '<br />';
-            echo $contCapcha . ' значение $contCapcha' .  '<br />'; // Test print
+//            echo $contCapcha . ' значение $contCapcha' .  '<br />'; // Test print =========================================
             if ($contCapcha > 2) {  // Проверяем сколько было попыток ввести пароль, если больше двух сомневаемся, что эти попытки исходят от админа и сохраняем в переменную соотв. значение. (подразумевается,  что допускаем три попытки для введения пароля)
                 $contCapcha = 'notAdmin?'; // записываем значение, якобы сомневаемся что это админ
                 $handle = fopen('contCapcha.txt', 'w'); // С помощью аргумента 'w' удалем все значение из файла (обрезаем файл до нулевой длинны) 

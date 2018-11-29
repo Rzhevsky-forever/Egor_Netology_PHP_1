@@ -11,6 +11,7 @@
     <body>
 <?php
 include_once './checkAdmin.php';
+$checkAdmin = checkAdmin();
 include_once 'makeUserName.php';
 /*--- Отладка ---*/
 //var_dump($_POST); echo 'POST';
@@ -18,13 +19,12 @@ include_once 'makeUserName.php';
 //var_dump(checkAdmin()); echo 'checkAdmin';
 //echo '<br />';
 
-    if (checkAdmin() === TRUE) : ?>
+    if ($checkAdmin === TRUE) : ?>
             <p>
                 Привет админ!
             </p>
             <a href="admin.php">Вы админ вы вообще все тут можете</a>
-    <?php elseif (empty($_POST) && checkAdmin() === FALSE) : ?>
-            
+    <?php elseif ( (empty($_POST) && $checkAdmin === FALSE)    ): ?>
             <p>
                 Введите логин и пароль
             </p>
@@ -37,14 +37,15 @@ include_once 'makeUserName.php';
                     <input type="submit">
                 </div>    
             </form>
-    <?php elseif (!empty($_POST) && checkAdmin() === 'notAdmin?') : ?>
-            <img src="image/capcha.php.php">
+    <?php elseif (!empty($_POST) && $checkAdmin === 'notAdmin?') : ?>
+            <?php echo $checkAdmin; ?>
+            <img src="image/capcha.php">
             <?php // var_dump(checkAdmin()); ?>
     <?php else : ?>
             <p>
                 Вы гость. Вы не можете удалять тесты.
             </p>
-            <?php var_dump($_POST); ?>            
+            <?php // var_dump($_POST); // Test print?>            
             <div>
                 <a href="list.php">Зато можете пройти тесты</a>
             </div>
