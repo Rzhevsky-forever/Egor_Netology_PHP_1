@@ -26,7 +26,7 @@ function checkAdmin () {
             fclose($handle); // Закрываем файл
             settype($readContCapcha, 'integer'); // Преобразуем считанные данные в целочисленный тип
 //            echo gettype($contCapcha) . '<br />'; // print type $contCapcha
-            $contCapcha = 0;
+            $contCapcha = 0; // Обнуляем переменную
             $contCapcha = $readContCapcha + 1; // Добавляем одну единицу к счетчику
             $handle = fopen('contCapcha.txt', 'w'); // Открываем файл - счетчик, в которм удаляем стартовые данные, в следующем шаге будем писать новые
             fwrite ($handle, $contCapcha); // Пишем обновленные данные счетчика
@@ -34,14 +34,14 @@ function checkAdmin () {
 //            echo fread($handle, 10); // Test print
             
             fclose($handle); // Закрываем поток
-            var_dump($contCapcha); echo ' var_dump' . '<br />';
-            echo '<br />';
-            echo gettype($contCapcha);echo ' gettype' . '<br />';
-//            echo $contCapcha . ' значение $contCapcha' .  '<br />'; // Test print
+//            var_dump($contCapcha); echo ' var_dump' . '<br />';
+//            echo '<br />';
+//            echo gettype($contCapcha);echo ' gettype' . '<br />';
+            echo $contCapcha . ' значение $contCapcha' .  '<br />'; // Test print
             if ($contCapcha > 2) {  // Проверяем сколько было попыток ввести пароль, если больше двух сомневаемся, что эти попытки исходят от админа и сохраняем в переменную соотв. значение. (подразумевается,  что допускаем три попытки для введения пароля)
                 $contCapcha = 'notAdmin?'; // записываем значение, якобы сомневаемся что это админ
                 $handle = fopen('contCapcha.txt', 'w'); // С помощью аргумента 'w' удалем все значение из файла (обрезаем файл до нулевой длинны) 
-                fwrite ($handle, ''); // пишем пустое значение
+                fwrite ($handle, '0'); // пишем пустое значение
                 fclose($handle); // Закрываем поток
             }
             $checkAdmin = $contCapcha; // сообщаем данные в выходную переменную
