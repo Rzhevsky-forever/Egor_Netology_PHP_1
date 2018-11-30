@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 3, 2018, 3:13:09 PM
+    Author     : Егор
+*/
+.textFeld {
+    width: 600px;
+    margin: 25px 0 0 0;
+    /*border: 1px solid #000;*/
+}
+
+.titleFeld {
+    width: 250px;
+    margin: 35px 0 0 0;
+    text-align: center;
+    /*border: 1px solid #000;*/
+}
+
+.newsTitle {
+    font: normal normal 700 36px sans-serif;
+}
+
+.newsText {
+    font: normal normal 300 14px sans-serif;
+}
