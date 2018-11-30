@@ -9,10 +9,21 @@ and open the template in the editor.
 */
 .textFeld {
     width: 600px;
-    border: 1px solid #000;
+    margin: 25px 0 0 0;
+    /*border: 1px solid #000;*/
 }
 
-.newsTitleFeld {
+.titleFeld {
     width: 250px;
-    border: 1px solid #000;
+    margin: 35px 0 0 0;
+    text-align: center;
+    /*border: 1px solid #000;*/
+}
+
+.newsTitle {
+    font: normal normal 700 36px sans-serif;
+}
+
+.newsText {
+    font: normal normal 300 14px sans-serif;
 }
