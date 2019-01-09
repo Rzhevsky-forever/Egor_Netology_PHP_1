@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Это рабочая реализация
 -->
 <html>
     <head>
@@ -14,27 +12,16 @@ and open the template in the editor.
         <link type="text/css" rel="stylesheet" href="castom.css" >
     </head>
     <body>
-    <?php
-        include_once 'newsClass.php';
-        $getNews = $news->getNews();
-//        var_dump($getNews); // ----------------------------- Test print
-    ?>
+    <?php include_once 'newsClass.php'; ?>
         <div class="wrapper">
-            <div class="newsTitle titleFeld">
-                <?php echo $getNews['newsTitle']; ?>
-            </div>
-            <div class="newsText textFeld">
-                <?php echo $getNews['newsText'];?>
-            </div>
+            <?php foreach ($currentNews as $key => $value) {?>
+                <div class="newsTitle titleFeld">
+                    <?php echo $value[0]; ?>
+                </div>
+                <div class="newsText textFeld">
+                    <?php echo $value[1]; ?>
+                </div>
+            <?php } ?>
         </div>
-    <?php 
-    /*
-        $test = $test -> getInfo();
-        foreach ($test as $value) {
-            echo $value . '<br />';
-        }
-     * 
-     */
-    ?>
     </body>
 </html>
