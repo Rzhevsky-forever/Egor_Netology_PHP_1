@@ -1,3 +1,7 @@
+<?php
+session_start();
+if ($_SESSION['role'] === 'alen') header('HTTP/1.0 403 Forbidden');
+?>
 <html>
     <head>
         <meta charset="UTF-8" lang="RU">
@@ -5,19 +9,16 @@
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
-<?php
-    ?>
-
-    <form method="POST" enctype="multipart/form-data" action="admin.php">
-        <div class="content form">
-            <p>Выбирите файл .json</p>
-            <div><input type="file" name="<?php echo $fileName = "uploadfile" ?>" multiple></div>
-            <div><input type="submit" value="Отправить"></div>
+        <div class="superTitle">
+            Административная панель
         </div>
-    </form>
-
-
-
+        <form method="POST" enctype="multipart/form-data" action="admin.php">
+            <div class="content wrapper_column">
+                <p class="form-item">Выбирите файл .json</p>
+                <div class="form-item"><input type="file" name="<?php echo $fileName = "uploadfile" ?>" multiple></div>
+                <div class="form-item"><input type="submit" value="Отправить"></div>
+            </div>
+        </form>
 <?php
 if (!empty($_FILES)) {
     if ($_FILES[$fileName]['type'] === 'application/json') {
@@ -29,7 +30,6 @@ if (!empty($_FILES)) {
         echo 'Проблемма... Загрузите файл в запрошенном формате ';
     } 
 }   
-   
 ?>
     </body>
 </html>
