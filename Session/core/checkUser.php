@@ -14,7 +14,7 @@
             $scanDir = scandir('core/users', TRUE);
             foreach ($scanDir as $fileName) {
                 $fileName = iconv('Windows-1251', 'UTF-8', $fileName);
-                var_dump($fileName);
+//                var_dump($fileName); // Testing
                 // Ищем файл с учетными данными админа
                 if ($fileName === 'adminData.json') {
                     // Читаем данные из файла учетных данных админа
@@ -67,7 +67,7 @@
                 // Ищем файл учетных данных других пользоввателей
                 if ($fileName === $post_date['userLogin'] . '.json') {
                     $userFile = json_decode(file_get_contents('users/' . $fileName, 1), TRUE);
-                    var_dump($userFile);
+//                    var_dump($userFile); // Testing
                     foreach ($userFile as $key => $value) {
                         if ($key === 'Login') {
                             if ($value === $post_date['userLogin']) $checkFerst = TRUE; // Проверяем правильность ввода логина

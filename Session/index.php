@@ -13,7 +13,7 @@
         // Если пароль от админки введен не верно 3 раза
         if ($_SESSION['role'] === 'not_admin') {
             header('Location: core/captcha_page.php');
-            print_r($_SESSION['role']); // Testing
+//            print_r($_SESSION['role']); // Testing
         }
         else { ?>
 <!DOCTYPE html>
@@ -47,7 +47,7 @@
         <?php }
         // Если пользователь user :
         else if ($userStatus === 'user') {
-            var_dump($_SESSION); // Testing
+//            var_dump($_SESSION); // Testing
             echo '<br> определился пользователь <br>'; ?>
             <a href="list.php">Перейти к списку тестов</a>
         <?php }
@@ -62,9 +62,6 @@
             <p> Представтесь пожалуйста или  </p>
             <a href="registration.php">Зарегистрироваться</a>
         <?php }
-        }
-//var_dump($_POST);
-//        var_dump($post_date); // Testing
-        ?>
+        } ?>
     </body>
 </html>
