@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8" lang="RU">
@@ -11,79 +6,75 @@ and open the template in the editor.
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
+        <form name="TestInter" method="POST" action="test.php">
+            
 <?php
-
-$otvet = filter_input(INPUT_POST, 'test');
-//if (!empty($otvet)) {  echo '<br>' . 'YESYES'; var_dump($otvet); }
-if (empty($otvet)){
-    if (!empty($_GET)) { // Какое - то не совсем правильное получение переменной
-         $test = filter_input(INPUT_GET, 'test'); // Строчный атрибут указанный вторым проверяет на наличие этой строки в INPUT_GET
-         $pathToFile = "tests/" . $test; // Формируем путь до файла (относительный) с учетом имени файла
-         $fileTest = file_get_contents($pathToFile); // Считываем файл по пути из прошлой строки
-         $decodeTest = json_decode($fileTest, TRUE);
-//         var_dump($decodeTest); // Тестовый вывод
-//         var_dump($decodeTest[0]['test-1']['qwestion_1 :']); // Тестовый вывод
-    
-        foreach ($decodeTest as $key => $value) {
-            foreach ($value as $test => $namber) {
-                foreach ($namber as $k => $v) {
-                    foreach ($v as $a => $b) {
-                        $variants[] = $b; 
-                    }
+$answer = filter_input(INPUT_POST, 'test'); // Получаем ответ от пользователя
+$test = filter_input(INPUT_GET, 'test'); // Приходит имя файла теста которое отражает название теста. Строчный атрибут указанный вторым означает строчный ключ массива данные из которого получаем и обрабатываем через filter_input
+if (empty($answer)){ // Обработка ответа
+    if (!empty($test)) { // Обработка контента теста при получение
+        $pathToFile = 'tests/' . $test; // Формируем путь до файла (относительный) с учетом имени файла
+        file_put_contents('tests/' . 'markerTest.txt', $test); // Пишет файл который содержит информацию о том ч каким тестом сейчас работаем
+        $fileTest = file_get_contents($pathToFile); // Считываем файл по пути из прошлой строки
+        $encoding = mb_detect_encoding($fileTest, 'UTF-8', 'Windows-1251'); // Вычмсляем кодировку, без двух последних флагов(возможные кодировки) не работет и возвращает UTF-8 всегда
+        if (!($encoding === 'UTF-8')) { // Проверяем кодировку UTF-8 или нет
+           $fileUTF = mb_convert_encoding($fileTest, 'UTF-8', 'Windows-1251'); // Если НЕ UTF-8 - меняем кодировку на UTF-8 (!! Добавление третьим аргументом исходной кодировки('Windows-1251') исправило проблемму когда символы в этой кодировки перекодировались в "?????..." !!)
+        } else {
+           $fileUTF = $fileTest;
+        }
+        $decodeTest = json_decode($fileUTF, TRUE); // Декодируем json и переписываем в массив PHP 
+        foreach ($decodeTest as $part => $content) {
+            if ($part !== 'answer :'){
+                foreach ($content as $test => $val) { ?>
+                            <p class="content"> 
+                                <?php echo $test; ?> <!-- Вывод текста вопроса -->
+                            </p>  
+                            <div class="radio_form">
+                        <?php foreach ($val as $questionName => $possibleAnswer) { ?>
+                            <div class="radio_buttom test content">
+                                <input type="radio" name="test" value="<?php echo $possibleAnswer; ?>"> <p><?php echo $possibleAnswer; ?></p>
+                            </div>
+                        <?php
+                   }
                 }
+            }
+        } ?>
+        </div>
+        <div class="radio_buttom">
+            <input class="content" type="submit" value="Выбрать">
+        </div>
+    <?php }
+// Cравниваем ответ данный пользователем с правильным    
+} elseif (!empty ($answer)){ // Слушаем переменную POST и ждем пока придет ответ
+// Ищем файл в котором записан обрабатываемый тест и получаем ответ из теста
+    $testsCatalog = 'tests/'; // Определяем переменную под имя каталога
+    $scanCatalog = scandir($testsCatalog); // просматриваем вложенные элементы и записываем их наименования в массив
+    foreach ($scanCatalog as $key => $value) { // Итерируем массив получаем, получаем значения
+        if (strpos($value, '.txt')) { // Ищем файл .txt 
+            $currentTest = file_get_contents($testsCatalog . $value); // Получаем запись из этого файла, запись нам говорит какой тест мы обрабатываем
+        }
+    }
+    $testString = file_get_contents($testsCatalog . $currentTest); // Получаем данные из файла теста
+    $testArrayDecode = json_decode($testString, TRUE); // Преобразуем данные в массив
+// Ищем значение правильного ответа
+    foreach ($testArrayDecode as $key => $value) { // Итерируем массив
+        if ($key === 'answer :') { // Ищем ключ 'answer :'
+            foreach ($value as $k => $v) { // Открываем значение по ключу 'answer :'
+                $correctAnswer = $v; // Пишем в переменную прпавльноый ответ
             }
         }
-//        echo 'новый массив - ';var_dump($variants);
-
- ?>
-    <form name="TestInter" method="POST" action="test.php">
-        <p class="content"> 
-            <?php foreach ($decodeTest as $key => $vv){
-                foreach ($vv as $f => $s) {
-                    foreach ($s as $n => $q) {
-                        echo $n;
-                    }
-                }
-            }
-?>
-        </p>
-        <div class="radio_form"> <!-- Тоже надо сделать в цыкле -->
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[0]; ?>"> <p><?php echo $variants[0]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[1]; ?>"> <p><?php echo $variants[1]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[2]; ?>"> <p><?php echo $variants[2]; ?></p>
-            </div>
-            <div class="radio_buttom test content">
-                <input type="radio" name="test" value="<?php echo $variants[3]; ?>"> <p><?php echo $variants[3]; ?></p>
-            </div>
-            <div class="radio_buttom">
-                <input class="content" type="submit" value="Выбрать">
-            </div>
-        </div>
-    </form>
-<?php 
- 
     }
-} elseif (isset ($otvet)){    
-    if ($otvet == 8 || $otvet == 1000 || $otvet == 9999 || $otvet == 78) {
-        echo 'Правильно!';
-    } else {
-        echo 'Не правильно!';
+    if ((int)$answer === $correctAnswer) { // Проверяем совпадает ли ответ данный пользователем с верным из файла теста
+        echo 'Правильно'; // Печатаем если совпадает
     }
-  } 
-    
-//          if($_POST["test"] == 8) {  
-//          if($_POST["test"] == 1000) {
-//          if($_POST["test"] == 9999) {
-//          if($_POST["test"] == 78) {
-
+    else { // Если не совпадает
+        echo $answer . ' - Это не правильный ответ :)'; // Печатаем это
+    }
+} else { // Если 
+    echo 'Что - то пошло не так';
+}
+   
 ?>
-
-
-
+        </form>
     </body>
 </html>
