@@ -6,15 +6,16 @@
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
-        <form name="TestInter" method="POST" action="test.php">
             
 <?php
 $answer = filter_input(INPUT_POST, 'test'); // Получаем ответ от пользователя
 $test = filter_input(INPUT_GET, 'test'); // Приходит имя файла теста которое отражает название теста. Строчный атрибут указанный вторым означает строчный ключ массива данные из которого получаем и обрабатываем через filter_input
-if (empty($answer)){ // Обработка ответа
+$testName = filter_input(INPUT_GET, 'testName'); ?>
+<form name="TestInter" method="POST" action="test.php?testName=<?php echo $test; ?>">
+<?php if (empty($answer)){ // Обработка ответа
     if (!empty($test)) { // Обработка контента теста при получение
         $pathToFile = 'tests/' . $test; // Формируем путь до файла (относительный) с учетом имени файла
-        file_put_contents('tests/' . 'markerTest.txt', $test); // Пишет файл который содержит информацию о том ч каким тестом сейчас работаем
+        // file_put_contents('tests/' . 'markerTest.txt', $test); // Пишет файл который содержит информацию о том с каким тестом сейчас работаем
         $fileTest = file_get_contents($pathToFile); // Считываем файл по пути из прошлой строки
         $encoding = mb_detect_encoding($fileTest, 'UTF-8', 'Windows-1251'); // Вычмсляем кодировку, без двух последних флагов(возможные кодировки) не работет и возвращает UTF-8 всегда
         if (!($encoding === 'UTF-8')) { // Проверяем кодировку UTF-8 или нет
@@ -41,32 +42,27 @@ if (empty($answer)){ // Обработка ответа
         } ?>
         </div>
         <div class="radio_buttom">
-            <input class="content" type="submit" value="Выбрать">
+            <input class="content" type="submit" value="Выбрать" name="<?php $test ?>">
         </div>
     <?php }
 // Cравниваем ответ данный пользователем с правильным    
 } elseif (!empty ($answer)){ // Слушаем переменную POST и ждем пока придет ответ
-// Ищем файл в котором записан обрабатываемый тест и получаем ответ из теста
+    // Ищем файл в котором записан обрабатываемый тест и получаем ответ из теста
     $testsCatalog = 'tests/'; // Определяем переменную под имя каталога
     $scanCatalog = scandir($testsCatalog); // просматриваем вложенные элементы и записываем их наименования в массив
-    foreach ($scanCatalog as $key => $value) { // Итерируем массив получаем, получаем значения
-        if (strpos($value, '.txt')) { // Ищем файл .txt 
-            $currentTest = file_get_contents($testsCatalog . $value); // Получаем запись из этого файла, запись нам говорит какой тест мы обрабатываем
-        }
-    }
-    $testString = file_get_contents($testsCatalog . $currentTest); // Получаем данные из файла теста
+    $testString = file_get_contents($testsCatalog . $testName); // Получаем данные из файла теста
     $testArrayDecode = json_decode($testString, TRUE); // Преобразуем данные в массив
-// Ищем значение правильного ответа
+    // Ищем значение правильного ответа
     foreach ($testArrayDecode as $key => $value) { // Итерируем массив
         if ($key === 'answer :') { // Ищем ключ 'answer :'
             foreach ($value as $k => $v) { // Открываем значение по ключу 'answer :'
-                $correctAnswer = $v; // Пишем в переменную прпавльноый ответ
+                $correctAnswer = $v; // Пишем в переменную правльноый ответ
             }
         }
     }
-    if ((int)$answer === $correctAnswer) { // Проверяем совпадает ли ответ данный пользователем с верным из файла теста
+    if ($answer == $correctAnswer) { // Проверяем совпадает ли ответ данный пользователем с верным из файла теста
         echo 'Правильно'; // Печатаем если совпадает
-    }
+    } 
     else { // Если не совпадает
         echo $answer . ' - Это не правильный ответ :)'; // Печатаем это
     }
