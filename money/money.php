@@ -4,10 +4,21 @@ $date = date('Y-m-d'); // Вводим дату
 /*-------- Проверяем массив на пустоту и получаем данные из командной строки Windows --------*/
 
 if (isset($argv[1])) {
-    // var_dump($argv);
+
     for ($y = 1; $y < count($argv); $y++) { // Получаем и перезаписываем в переменную значения из командной строки
+//        echo "y === $y \n"; // Testing
+//        $count = count($argv); // Testing
+//        echo "count === $count \n"; // Testing
         $content[0] = $date; // Записываем дату в массив данных
-        $content[$y] = $argv[$y];
+        $content[1] = $argv[1];
+        if ($y === 2) $content[2] = NULL;
+        if ($y > 1) {
+            if ($y != (count($argv) - 1)) {
+                $content[2] .= $argv[$y].' ';
+            } else {
+                $content[2] .= $argv[$y];
+            }
+        }
     }
     
     /*-------- Проверяем массив на наличие ключа '--today' зарезервированного нами для чтения и пишем данные в файл --------*/
