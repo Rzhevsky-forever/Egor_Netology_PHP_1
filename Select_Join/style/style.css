@@ -1,0 +1,29 @@
+.buttom_submit {
+    margin: 15px 0 0 0;
+}
+
+.textFild {
+    margin: 15px 0px 15px 0px;
+}
+
+.exit {
+    margin: 15px 0 15px 0;
+}
+
+caption {
+    margin: 10px 0 15px 0;
+}
+
+th {
+    text-align: center;
+    padding: 3px 10px 3px 10px;
+}
+
+td {
+    text-align: center;
+    padding: 3px 10px 3px 10px;
+}
+
+.task {
+    text-align: left;
+}
